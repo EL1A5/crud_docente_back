@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -92,11 +91,11 @@ public class CrudDocenteController {
 	public ResponseEntity<Map<String, Object>> eliminaDocente(@PathVariable("id")int id) {
 		Map<String, Object> salida = new HashMap<>();
 		try {
-			Optional<Docente> opt = service.buscaDocente(id);
-			if (opt.isPresent()) {
+			Docente opt = service.buscaDocentePorId(id);
+			if (opt != null) {
 				service.eliminaDocente(id);
-				Optional<Docente> optDocente = service.buscaDocente(id);
-				if (optDocente.isEmpty()) {
+				Docente optDocente = service.buscaDocentePorId(id);
+				if (optDocente == null) {
 					salida.put("mensaje", Constantes.MENSAJE_ELI_EXITOSO);
 				} else {
 					salida.put("mensaje", Constantes.MENSAJE_ELI_ERROR);
